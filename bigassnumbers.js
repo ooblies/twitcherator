@@ -1,9 +1,9 @@
 var kill = false;
 var display;
-var segmentLength = 3;
+var segmentLength = 10;
 var numberSegments = ["0"];
 //TO-DO handle increment larger than max int size?
-var incrementSegments = ["1"];
+var incrementSegments = ["123123","1123123123","1123123123"];
 var speed = 10;
 
 
@@ -13,6 +13,7 @@ window.onload = function init() {
   lblLength = document.getElementById("lblLength");
   lblIncrement = document.getElementById("lblIncrement");
   lblArrLength = document.getElementById("lblArrLength");
+  lblSegments = document.getElementById("lblSegments");
   render();
 }
 function render() {
@@ -25,8 +26,9 @@ function render() {
         //display.textContent = num;
         display.textContent = buildNumber();
         lblLength.innerHTML = display.textContent.length;
-        lblIncrement.innerHTML = incrementBy;
+        lblIncrement.innerHTML = incrementSegments;
         lblArrLength.innerHTML = numberSegments.length;
+        lblSegments.innerHTML = numberSegments;
         //num++;
         incrementNumber(numberSegments, incrementSegments);
       }
@@ -45,12 +47,12 @@ function incrementNumber(number, increment) {
     if (j >= 0) {
       var intNum = parseInt(number[i]);
       var intIncrement = parseInt(increment[j]);
-      newNum = intNum + incrementBy;
+      newNum = intNum + intIncrement;
 
       if (newNum.toString().length > segmentLength) {
         var strNum = newNum.toString();
 
-        overflow = //overflow
+        overflow = left(strNum, strNum.length - segmentLength);
         number[i] = right(strNum,segmentLength);
 
         if (i == 0) {
@@ -58,11 +60,12 @@ function incrementNumber(number, increment) {
           i++;
         }
       } else {
-        number[i] = (newNum + overflow).toString();
+        number[i] = (parseInt(newNum) + parseInt(overflow)).toString();
         overflow = 0;
       }
     } else {
-      number[i] = (parseInt(number[i]) + overflow).toString();
+      number[i] = (parseInt(number[i]) + parseInt(overflow)).toString();
+      overflow = 0;
     }
     
     i--;
@@ -102,9 +105,9 @@ function buildNumber() {
   for (i = 0; i < numberSegments.length; i++) {
     //trim leading 0's on first segment  
     if (i == 0) {
-          bigAssNumber = parseFloat(numberSegments[i]).toLocaleString('fullwide', {useGrouping:false});
+          bigAssNumber = numberSegments[i];
       } else {
-        bigAssNumber = bigAssNumber + parseFloat(right("0000000000000000000000000000000000000000" + numberSegments[i],3)).toLocaleString('fullwide', {useGrouping:false});
+        bigAssNumber = bigAssNumber + right("0000000000000000000000000000000000000000" + numberSegments[i],3);
       }
       
   };
@@ -118,6 +121,6 @@ function right(str,num) {
 }
 
 function left(str, num) {
-  var r = str.substring(0, num-1);
+  var r = str.substring(0, num);
   return r;
 }
