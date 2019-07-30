@@ -44,6 +44,10 @@ function incrementNumber(number, increment) {
   var overflow = 0;
 
   while (j >= 0 || overflow > 0) {
+    if (i < 0) {
+      number.unshift("0");
+      i++;
+    }
     if (j >= 0) {
       var intNum = parseInt(number[i]);
       var intIncrement = parseInt(increment[j]);
@@ -107,7 +111,7 @@ function buildNumber() {
     if (i == 0) {
           bigAssNumber = numberSegments[i];
       } else {
-        bigAssNumber = bigAssNumber + right("0000000000000000000000000000000000000000" + numberSegments[i],3);
+        bigAssNumber = bigAssNumber + right("0000000000" + numberSegments[i],segmentLength);
       }
       
   };
