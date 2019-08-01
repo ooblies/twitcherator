@@ -1,32 +1,4 @@
-var kill = false;
-var display;
 var segmentLength = 10;
-var numberSegments = ["0"];
-//TO-DO handle increment larger than max int size?
-var baseIncrement = ["1"];
-var speed = 1000;
-
-var viewers = ["100"];
-var followers = ["25"];
-var subscribers = ["0"];
-var bitMultiplier = [""];
-var calculatedIncrement =[];
-
-function getIncrement() {
-  //[Viewers]*[Followers]^[Subscribers] 
-  
-  calculatedIncrement = bigMultiply(baseIncrement, viewers)
-  
-  if (followers > 0) {
-    calculatedIncrement = bigMultiply(calculatedIncrement, followers);
-  }  
-  
-  if (subscribers > 0) {
-    calculatedIncrement = bigExponent(calculatedIncrement, subscribers);
-  }
-  
-  return calculatedIncrement;
-}
 
 function bigExponent(number, exponent) {
   //this doesnt work
@@ -116,37 +88,6 @@ function bigMultiply(number, multiplier) {
     return num;
 }
 
-window.onload = function init() {
-  display = document.getElementById("testNum"); 
-  number = document.getElementById("number"); 
-  lblIncrement = document.getElementById("lblIncrement");
-  lblViewers = document.getElementById("lblViewers");
-  lblFollowers = document.getElementById("lblFollowers");
-  lblSubscribers = document.getElementById("lblSubscribers");
-  render();
-}
-function render() {
-    
-    setTimeout(function()
-    {
-      //do stuff 
-      if(!kill){
-        
-        number.innerHTML = buildNumber();
-
-        lblIncrement.innerHTML = getIncrement();
-        lblViewers.innerHTML = viewers;
-        lblFollowers.innerHTML = followers;
-        lblSubscribers.innerHTML = subscribers;
-        //num++;
-        numberSegments = bigAdd(numberSegments, getIncrement());
-      }
-      requestAnimationFrame(render);
-    }, speed);
-    
-}
-
-
 function bigAdd(number, increment) {
   var num = [...number];
 
@@ -192,48 +133,24 @@ function bigAdd(number, increment) {
 
 
 
-function incrementNumber_old() {
-    var currentSegment = numberSegments.length-1;
-  var strNum = numberSegments[currentSegment];
-  var intNum = parseFloat(strNum);
-  intNum += incrementBy;
-  
-
-  //if last segment overflows segment length
-  if (intNum.toString().length > segmentLength) {
-    numberSegments[currentSegment] = intNum.toString().substring(intNum.toString().length - segmentLength,intNum.toString().length);   
-    //if a segment exists prior to current segment 
-    if (numberSegments[currentSegment-1]) {
-        //add overflow from current segment to previous segment
-        numberSegments[currentSegment - 1] = (parseFloat(numberSegments[currentSegment - 1]) + parseFloat(intNum.toString().substring(0,intNum.toString().length - segmentLength))).toString();
-        //create prior segment
-    } else {
-        numberSegments.unshift(intNum.toString().substring(0,intNum.toString().length - segmentLength));
-    }        
-    //set current segment to new int
-  } else {
-      numberSegments[currentSegment] = intNum.toString();
-  }  
-}
-
-function getNumberLength() {
-  var firstSegment = numberSegments[0].length;
-  var theRest = (numberSegments.length - 1) * 10;
+function getNumberLength(number) {
+  var firstSegment = number[0].length;
+  var theRest = (number.length - 1) * 10;
   var numberLength = firstSegment + theRest;
 
   return numberLength;
 }
 
-function buildNumber() {
+function getBigNumberAsString(number) {
   
   var bigAssNumber = "";
 
-  for (i = 0; i < numberSegments.length; i++) {
+  for (i = 0; i < number.length; i++) {
     //trim leading 0's on first segment  
     if (i == 0) {
-          bigAssNumber = numberSegments[i];
+          bigAssNumber = number[i];
       } else {
-        bigAssNumber = bigAssNumber + right("0000000000" + numberSegments[i],segmentLength);
+        bigAssNumber = bigAssNumber + right("0000000000" + number[i],segmentLength);
       }      
   };
   
@@ -241,7 +158,7 @@ function buildNumber() {
 }
 
 function addCommas(number) {
-  var length = getNumberLength();
+  var length = getNumberLength(number);
   var remainder = length % 3;
 
   var first = number.substring(0,remainder);
