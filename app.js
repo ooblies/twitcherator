@@ -29,10 +29,11 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                         var newInt = parseInt(newCount[0]);
                         var oldInt = parseInt($scope.subscribers[0]);
 
+                        //float changing number
                         if (newInt>oldInt) {
-                            $scope.floatText("+" + newInt.toString(),$("#subscribers")[0]);
+                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#subscribers")[0]);
                         } else if (newInt<oldInt) {
-                            $scope.floatText("-" + newInt.toString(),$("#subscribers")[0]);
+                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#subscribers")[0]);
                         }
 
                         $scope.subscribers = newCount; 
@@ -54,9 +55,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                         var oldInt = parseInt($scope.viewers[0]);
                         
                         if (newInt>oldInt) {
-                            $scope.floatText("+" + newInt.toString(),$("#viewers")[0]);
+                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#viewers")[0]);
                         } else if (newInt<oldInt) {
-                            $scope.floatText("-" + newInt.toString(),$("#viewers")[0]);
+                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#viewers")[0]);
                         }
 
                         $scope.viewers = newCount;
@@ -74,9 +75,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                         var oldInt = parseInt($scope.followers[0]);
 
                         if (newInt>oldInt) {
-                            $scope.floatText("+" + newInt.toString(),$("#followers")[0]);
+                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#followers")[0]);
                         } else if (newInt<oldInt) {
-                            $scope.floatText("-" + newInt.toString(),$("#followers")[0]);
+                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#followers")[0]);
                         }
 
                         $scope.followers = newCount;

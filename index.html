@@ -8,17 +8,28 @@
     <link rel="stylesheet" type="text/css" href="numbers.css">
 </head>
 
-<body ng-app="myApp" ng-controller="myCtrl">  
+<body ng-app="myApp" ng-controller="myCtrl" class="body">  
     <div id="testNum" class="numberContainer">
         <label class="number" id="number">{{displayNumber}}</label>        
         <div id="floaterDiv" class="floaterDiv">
     </div>
-    <div class="bottom">
-        <div>
-            (<label id="viewers">{{getViewersAsString()}}</label> * <label id="followers">{{getFollowersAsString()}})</label> ^ <label id="subscribers">{{getSubscribersAsString()}}</label> = <b>{{getIncrementAsString()}}</b>/s
-        </div>   
-        <div>
-            Formula: (Viewers * Followers)^Subscribers per second.
-        </div> 
+    <div>
+        <div class="bottom table">
+            <div class="row">       
+                <div class="cell"></div>     
+                <div class="cell"><label>(</label></div>
+                <div class="cell" id="viewers"><label>&nbsp;{{getViewersAsString()}}&nbsp;</label></div>
+                <div class="cell"><label>*</label></div>
+                <div class="cell" id="followers"><label>&nbsp;{{getFollowersAsString()}}&nbsp;</label></div>
+                <div class="cell"><label>)&nbsp;^</label></div>
+                <div class="cell" id="subscribers"><label>&nbsp;{{getSubscribersAsString()}}&nbsp;</label></div>
+                <div class="cell"><label>=</label></div>
+                <div class="cell" id="increment"><label>&nbsp;{{getIncrementAsString()}}</label></div>
+                <div class="cell"><label>/s</label></div> 
+            </div>   
+            <div class="row">
+                Formula: (Viewers * Followers)^Subscribers per second.
+            </div> 
+        </div>    
     </div>    
-  </body>
+</body>
