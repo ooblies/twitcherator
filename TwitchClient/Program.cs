@@ -19,7 +19,8 @@ namespace TwitchClient
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint ipe = new IPEndPoint(ipAddress, 8080);
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Connect(ipe);
+                socket.Bind(ipe);
+                socket.Listen(2);
                 socket.Send(Encoding.UTF8.GetBytes("hello"));
                 Thread.Sleep(5000);
             }
