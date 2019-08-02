@@ -1,6 +1,6 @@
 .number {
     font-weight: bold; 
-    font-size: 25px;
+    font-size: 32px;
 }
 
 .numberContainer {
@@ -14,23 +14,20 @@
     margin-top:-40px;
 }
 
-.bottom {
-    bottom:0px;
-    position: fixed;
-    display: table;
-}
-
-.table {display: table;}
-.row {display: table-row;}
-.cell {
-    display: table-cell;
-}
-
-.padding-cell {
-    display: table-cell;
-    width: 40%;
+.center {
+    margin:0 auto;
 }
 
 .body {
     margin:0px !important;
+    background-color: #1e1e1e;
+    color:lightgray;
+}
+
+.footer {
+    transform: translate(-50%, -50%);
+    position: fixed;
+    left:50%;
+    bottom:10px;
+    margin: 0 auto;
 }

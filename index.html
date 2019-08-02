@@ -13,23 +13,22 @@
         <label class="number" id="number">{{displayNumber}}</label>        
         <div id="floaterDiv" class="floaterDiv">
     </div>
-    <div>
-        <div class="bottom table">
-            <div class="row">       
-                <div class="cell"></div>     
-                <div class="cell"><label>(</label></div>
-                <div class="cell" id="viewers"><label>&nbsp;{{getViewersAsString()}}&nbsp;</label></div>
-                <div class="cell"><label>*</label></div>
-                <div class="cell" id="followers"><label>&nbsp;{{getFollowersAsString()}}&nbsp;</label></div>
-                <div class="cell"><label>)&nbsp;^</label></div>
-                <div class="cell" id="subscribers"><label>&nbsp;{{getSubscribersAsString()}}&nbsp;</label></div>
-                <div class="cell"><label>=</label></div>
-                <div class="cell" id="increment"><label>&nbsp;{{getIncrementAsString()}}</label></div>
-                <div class="cell"><label>/s</label></div> 
-            </div>   
-            <div class="row">
-                Formula: (Viewers * Followers)^Subscribers per second.
-            </div> 
-        </div>    
+    <div class="footer">
+        <div class="center"> 
+            <div>
+                <label>(</label>
+                <label id="viewers"></labelid>&nbsp;{{getViewersAsString()}}&nbsp;</label>
+                <label>*</label>
+                <label id="followers"></label>&nbsp;{{getFollowersAsString()}}&nbsp;</label>
+                <label>)&nbsp;^</label>
+                <labeli id="subscribers">&nbsp;{{getSubscribersAsString()}}&nbsp;</label>
+                <label>=</label>
+                <label id="increment">&nbsp;{{getIncrementAsString()}}</label>
+                <label>/ {{getNumberPerSecond()}}s</label>
+            </div>            
+        </div>   
+        <div class="center">
+            Formula: (Viewers * Followers) ^ Subscribers per (1000 - Bits) milliseconds
+        </div>  
     </div>    
 </body>

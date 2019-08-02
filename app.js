@@ -12,6 +12,8 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
         $scope.floaterCount = 0;
 
+        $scope.delayInMS = 1000;
+
         $scope.pullFromTwitch = function() {
             var userName = 'TwitchMakesABigNumber';
             var userId = '452018475';
@@ -31,9 +33,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
                         //float changing number
                         if (newInt>oldInt) {
-                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#subscribers")[0]);
+                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#subscribers")[0],12);
                         } else if (newInt<oldInt) {
-                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#subscribers")[0]);
+                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#subscribers")[0],12);
                         }
 
                         $scope.subscribers = newCount; 
@@ -55,9 +57,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                         var oldInt = parseInt($scope.viewers[0]);
                         
                         if (newInt>oldInt) {
-                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#viewers")[0]);
+                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#viewers")[0],12);
                         } else if (newInt<oldInt) {
-                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#viewers")[0]);
+                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#viewers")[0],12);
                         }
 
                         $scope.viewers = newCount;
@@ -75,9 +77,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                         var oldInt = parseInt($scope.followers[0]);
 
                         if (newInt>oldInt) {
-                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#followers")[0]);
+                            $scope.floatText("+" + (newInt - oldInt).toString(),$("#followers")[0],12);
                         } else if (newInt<oldInt) {
-                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#followers")[0]);
+                            $scope.floatText("-" + (oldInt - newInt).toString(),$("#followers")[0],12);
                         }
 
                         $scope.followers = newCount;
@@ -112,7 +114,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
             $scope.number = bigAdd($scope.number, $scope.calculateIncrement());
             $scope.displayNumber = getBigNumberAsString($scope.number);
 
-            $scope.floatText("+" + $scope.getIncrementAsString(),$("#number")[0]);
+            $scope.floatText("+" + $scope.getIncrementAsString(),$("#number")[0], 24);
             console.log("Add " + $scope.getIncrementAsString());
         }
 
@@ -129,11 +131,12 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
             return getBigNumberAsString($scope.subscribers);
         }
 
-        $scope.floatText = function(float, element) {
+        $scope.floatText = function(float, element, textSize) {
             var newFloater = document.createElement("div");
             var newFloaterId = "textFloater" + $scope.floaterCount;
             newFloater.setAttribute("id", newFloaterId);
             newFloater.setAttribute("class", "floatingText");
+            newFloater.style.fontSize = textSize;
             $scope.floaterCount++;
       
             var text = document.createTextNode(float);
@@ -153,11 +156,19 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
             $timeout(function() {
               element.removeChild(newFloater);
             }, 1000);
-          }
+        }
+
+        $scope.getNumberPerSecond = function() {
+            return $scope.calculateIncrement() / (1000 - $scope.delayInMS);
+        }
         
         $interval($scope.pullFromTwitch, 5000);   
-        $interval($scope.incrementNumber, 1000);  
+        $interval($scope.incrementNumber, $scope.delayInMS);  
 
         $scope.pullFromTwitch();
 
+        
+        increaseSpeed = function(speed) {
+            $scope.delayInMS = speed;
+        }
 });
