@@ -2,19 +2,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="bigassnumbers.js"></script>
+    <script src="scripts/jquery-3.3.1.slim.min.js"></script>
+    <script src="scripts/anime.js"></script>
+
     <link rel="stylesheet" type="text/css" href="numbers.css">
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl">  
     <div id="testNum" class="numberContainer">
-        <label class="number" id="number">{{displayNumber}}</label>
+        <label class="number" id="number">{{displayNumber}}</label>        
+        <div id="floaterDiv" class="floaterDiv">
     </div>
-    <div style="height:5%; display: flex; align-items: center;justify-content: center;">
+    <div class="bottom">
+        <div>
+            (<label id="viewers">{{getViewersAsString()}}</label> * <label id="followers">{{getFollowersAsString()}})</label> ^ <label id="subscribers">{{getSubscribersAsString()}}</label> = <b>{{getIncrementAsString()}}</b>/s
+        </div>   
         <div>
             Formula: (Viewers * Followers)^Subscribers per second.
-        </div>
-        <div>
-            ({{getViewersAsString()}} * {{getFollowersAsString()}}) ^ {{getSubscribersAsString()}} = {{getIncrementAsString()}}/s        
-        </div>    
+        </div> 
     </div>    
   </body>

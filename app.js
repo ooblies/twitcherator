@@ -1,6 +1,6 @@
 var app = angular.module('myApp', []);
 
-app.controller('myCtrl',function($scope, $interval, $http) {
+app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
         $scope.baseIncrement = ["1"];
         $scope.viewers = ["0"];
@@ -8,62 +8,85 @@ app.controller('myCtrl',function($scope, $interval, $http) {
         $scope.subscribers = ["0"];
 
         $scope.number = ["0"];
-        $scope.displayNumber = "0";
+        $scope.displayNumber = "0";        
 
-        $scope.accessToken = '';
-        
+        $scope.floaterCount = 0;
 
         $scope.pullFromTwitch = function() {
             var userName = 'TwitchMakesABigNumber';
             var userId = '452018475';
             var clientId = 'eo171si6zugwlanaf2it4wuo3mg6y7';
-            var clientSecret = '1u9f21tz495eg388gu7ads9rok69nl'            
-            var headers = {'client-id':'eo171si6zugwlanaf2it4wuo3mg6y7',
-                           'Authorization':'Bearer' + accessToken};
-            console.log("pullFromTwitch");
+            var clientSecret = '1u9f21tz495eg388gu7ads9rok69nl'     
             
             //get oath token
-            $http.post("https://" + userName + ".twitch.tv/oauth2/token?client_id=" + userId + "&client_secret=" + clientSecret + "&grant_type=client_credentials")
+            $http.post("https://id.twitch.tv/oauth2/token?client_id=" + clientId + "&client_secret=" + clientSecret + "&grant_type=client_credentials&scope=channel:read:subscriptions")
                 .then(function success(response) {
-                    debugger;
-                    $scope.accessToken = response.data.access_token;
+                    //get subscriber count
+                    $http.get("https://api.twitch.tv/helix/subscriptions?broadcaster_id=" + userId + "&user_id=" + userId, {
+                        headers: {'client-id':clientId,'Authorization':'Bearer ' + response.data.access_token}
+                    }).then(function success(response) {
+                        var newCount = ["" + response.data.data.length.toString() + ""];
+                        var newInt = parseInt(newCount[0]);
+                        var oldInt = parseInt($scope.subscribers[0]);
+
+                        if (newInt>oldInt) {
+                            $scope.floatText("+" + newInt.toString(),$("#subscribers")[0]);
+                        } else if (newInt<oldInt) {
+                            $scope.floatText("-" + newInt.toString(),$("#subscribers")[0]);
+                        }
+
+                        $scope.subscribers = newCount; 
+                    }, function error(response) {
+                        console.log("ERROR: Subscription Count Broke.")
+                    });
+
+                    //get viewer count
+                    $http.get("https://api.twitch.tv/helix/streams?user_id=" + userId, {
+                        headers: {'client-id':clientId,'Authorization':'Bearer ' + response.data.access_token}
+                    }).then(function success(response) {
+                        var newCount;
+                        if (response.data.data.length == 0) {
+                            newCount = ["0"];
+                        } else {
+                            newCount = ["" + response.data.data[0].viewer_count.toString() + ""]
+                        }
+                        var newInt = parseInt(newCount[0]);
+                        var oldInt = parseInt($scope.viewers[0]);
+                        
+                        if (newInt>oldInt) {
+                            $scope.floatText("+" + newInt.toString(),$("#viewers")[0]);
+                        } else if (newInt<oldInt) {
+                            $scope.floatText("-" + newInt.toString(),$("#viewers")[0]);
+                        }
+
+                        $scope.viewers = newCount;
+                    }, function error(response) {
+                        console.log("ERROR: Viewer Count Broke.")
+                    });
+
+                    //get follower count
+                    $http.get("https://api.twitch.tv/helix/users/follows?to_id=" + userId, {
+                        headers: {'client-id':clientId,'Authorization':'Bearer ' + response.data.access_token}
+                    }).then(function success(response) {
+                        var newCount = ["" + response.data.total + ""];
+
+                        var newInt = parseInt(newCount[0]);
+                        var oldInt = parseInt($scope.followers[0]);
+
+                        if (newInt>oldInt) {
+                            $scope.floatText("+" + newInt.toString(),$("#followers")[0]);
+                        } else if (newInt<oldInt) {
+                            $scope.floatText("-" + newInt.toString(),$("#followers")[0]);
+                        }
+
+                        $scope.followers = newCount;
+                    }, function error(response) {
+                        console.log("ERROR: Follower Count Broke.")
+                    });
+                    
                 }, function error(response) {
-                    debugger;
+                    console.log("ERROR: Get OATH Broke.")
                 });
-            
-            //get viewers
-            $http.get("https://api.twitch.tv/helix/streams?user_id=" + userId, {
-                headers: headers
-            }).then(function success(response) {
-                if (response.data.data.length == 0) {
-                    $scope.viewers = ["0"];
-                } else {
-                    $scope.viewers = ["" + response.data.data[0].viewer_count.toString() + ""]
-                }
-            }, function error(response) {
-                alert('something broke');
-                debugger;
-            });
-
-            //followers
-            $http.get("https://api.twitch.tv/helix/users/follows?to_id=" + userId, {
-                headers: headers
-            }).then(function success(response) {
-                $scope.followers = ["" + response.data.total + ""];
-            }, function error(response) {
-                alert('uh-oh');
-                debugger;
-            });
-
-            //subscribers
-            $http.get("https://api.twitch.tv/helix/subscriptions?broadcaster_id=" + userId + "&user_id=" + userId, {
-                headers: headers
-            }).then(function success(response) {
-                debugger;
-            }, function error(response) {
-                alert("now you've done it");
-                debugger;
-            });
         }
 
         $scope.calculateIncrement = function() {   
@@ -87,6 +110,8 @@ app.controller('myCtrl',function($scope, $interval, $http) {
         $scope.incrementNumber = function() {
             $scope.number = bigAdd($scope.number, $scope.calculateIncrement());
             $scope.displayNumber = getBigNumberAsString($scope.number);
+
+            $scope.floatText("+" + $scope.getIncrementAsString(),$("#number")[0]);
             console.log("Add " + $scope.getIncrementAsString());
         }
 
@@ -103,6 +128,31 @@ app.controller('myCtrl',function($scope, $interval, $http) {
             return getBigNumberAsString($scope.subscribers);
         }
 
+        $scope.floatText = function(float, element) {
+            var newFloater = document.createElement("div");
+            var newFloaterId = "textFloater" + $scope.floaterCount;
+            newFloater.setAttribute("id", newFloaterId);
+            newFloater.setAttribute("class", "floatingText");
+            $scope.floaterCount++;
+      
+            var text = document.createTextNode(float);
+            newFloater.appendChild(text);                  
+      
+            element.appendChild(newFloater);
+      
+            anime({
+              targets: "#" + newFloaterId,
+              translateY: -100,
+              duration: 1000,
+              easing: 'linear',
+              opacity: 0,
+            });
+      
+            //remove element
+            $timeout(function() {
+              element.removeChild(newFloater);
+            }, 1000);
+          }
         
         $interval($scope.pullFromTwitch, 5000);   
         $interval($scope.incrementNumber, 1000);  
