@@ -11,7 +11,7 @@ app.controller('myCtrl',function($scope, $interval) {
     $scope.retryIn = 5;
 
     $scope.connect = function() {
-        $scope.socket = new WebSocket('ws://localhost:6030');
+        $scope.socket = new WebSocket('ws://localhost:8080');
 
         $scope.socket.addEventListener("message", function(event){
             console.log("message from the server: " + event);       
@@ -30,13 +30,8 @@ app.controller('myCtrl',function($scope, $interval) {
                 
         $scope.retryIn = 5;    
     }
-
-    $scope.increment = function() {
-        $scope.retryIn--;
-    }
     
-    $interval($scope.connect, 5000);  
-    $interval($scope.increment, 1000);
+    $interval($scope.connect, 1000);  
 
 });
     
