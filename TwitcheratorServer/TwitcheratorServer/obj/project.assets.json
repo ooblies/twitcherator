@@ -693,11 +693,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Desktop\\TwitcheratorServer\\TwitcheratorServer\\TwitcheratorServer.csproj",
+      "projectUniqueName": "D:\\Desktop\\twitcherator\\TwitcheratorServer\\TwitcheratorServer\\TwitcheratorServer.csproj",
       "projectName": "TwitcheratorServer",
-      "projectPath": "D:\\Desktop\\TwitcheratorServer\\TwitcheratorServer\\TwitcheratorServer.csproj",
+      "projectPath": "D:\\Desktop\\twitcherator\\TwitcheratorServer\\TwitcheratorServer\\TwitcheratorServer.csproj",
       "packagesPath": "C:\\Users\\azmau\\.nuget\\packages\\",
-      "outputPath": "D:\\Desktop\\TwitcheratorServer\\TwitcheratorServer\\obj\\",
+      "outputPath": "D:\\Desktop\\twitcherator\\TwitcheratorServer\\TwitcheratorServer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "c:\\program files\\dotnet\\sdk\\NuGetFallbackFolder"

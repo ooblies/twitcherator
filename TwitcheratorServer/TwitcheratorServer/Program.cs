@@ -18,7 +18,8 @@ namespace TwitcheratorServer
                     Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     IPHostEntry host = Dns.GetHostEntry("localhost");
                     IPAddress iPAddress = host.AddressList.First();
-                    IPEndPoint ipe = new IPEndPoint(iPAddress, 6030);
+                    String IpAddressString = IPAddress.Loopback.ToString();
+                    IPEndPoint ipe = new IPEndPoint(iPAddress, 10000);
                     socket.Connect(ipe);
                     socket.Send(Encoding.UTF8.GetBytes("hello"));
                     Thread.Sleep(5000);

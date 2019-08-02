@@ -8,3 +8,14 @@ D:\Desktop\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\Twitche
 D:\Desktop\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.AssemblyInfo.cs
 D:\Desktop\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.dll
 D:\Desktop\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.pdb
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\bin\Debug\netcoreapp2.2\TwitcheratorServer.deps.json
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\bin\Debug\netcoreapp2.2\TwitcheratorServer.runtimeconfig.json
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\bin\Debug\netcoreapp2.2\TwitcheratorServer.runtimeconfig.dev.json
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\bin\Debug\netcoreapp2.2\TwitcheratorServer.dll
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\bin\Debug\netcoreapp2.2\TwitcheratorServer.pdb
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.csprojAssemblyReference.cache
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.csproj.CoreCompileInputs.cache
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.AssemblyInfoInputs.cache
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.AssemblyInfo.cs
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.dll
+D:\Desktop\twitcherator\TwitcheratorServer\TwitcheratorServer\obj\Debug\netcoreapp2.2\TwitcheratorServer.pdb
