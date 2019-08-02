@@ -11,7 +11,7 @@ app.controller('myCtrl',function($scope, $interval) {
     $scope.retryIn = 5;
 
     $scope.connect = function() {
-        $scope.socket = new WebSocket('ws://localhost:8080');
+        $scope.socket = new WebSocket('ws://localhost:11111');
 
         $scope.socket.addEventListener("message", function(event){
             console.log("message from the server: " + event);       

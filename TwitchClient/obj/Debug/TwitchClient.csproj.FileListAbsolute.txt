@@ -1,0 +1,7 @@
+C:\Development\Personal\twitcherator\TwitchClient\bin\Debug\TwitchClient.exe.config
+C:\Development\Personal\twitcherator\TwitchClient\bin\Debug\TwitchClient.exe
+C:\Development\Personal\twitcherator\TwitchClient\bin\Debug\TwitchClient.pdb
+C:\Development\Personal\twitcherator\TwitchClient\obj\Debug\TwitchClient.csprojAssemblyReference.cache
+C:\Development\Personal\twitcherator\TwitchClient\obj\Debug\TwitchClient.csproj.CoreCompileInputs.cache
+C:\Development\Personal\twitcherator\TwitchClient\obj\Debug\TwitchClient.exe
+C:\Development\Personal\twitcherator\TwitchClient\obj\Debug\TwitchClient.pdb
