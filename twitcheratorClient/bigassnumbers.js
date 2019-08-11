@@ -1,91 +1,111 @@
-var segmentLength = 10;
+var segmentLength = 5;
 
-function bigExponent(number, exponent) {
-  //this doesnt work
-  var num = [...number];
+
+function getEvenNumberChunks(str) {
+  var numChunks = Math.ceil(str.length / segmentLength)
+  var chunks = new Array(numChunks)
+
+  for (let i = 0, o = 0; i < numChunks; ++i, o += segmentLength) {
+    chunks[i] = str.substr(o, segmentLength)
+  }
+
+  return chunks
+}
+
+function bigNumberEqualTo(first,second) {
+  if (first.length != second.length) {
+    return false;
+  }
+  for (let i = 0; i < first.length; i++) {
+    if (parseInt(first[i]) != parseInt(second[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function bigNumberGreaterThan(first,second) {
+  if (first.length < second.length) {
+    return false;
+  }
+  if (first.length > second.length) {
+    return true;
+  }
+  for (let i = 0; i < first.length; i++) {
+    if (parseInt(first[i]) < parseInt(second[i])) {
+      return false;
+    }
+    if (parseInt(first[i]) > parseInt(second[i])) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function bigNumberLessThanOrEqualTo(first, second) {
+  return bigNumberLessThan(first,second) || bigNumberEqualTo(first,second);
+}
+function bigNumberGreaterThanOrEqualTo(first, second) {
+  return bigNumberGreaterThan(first,second) || bigNumberEqualTo(first,second);
+}
+
+function bigNumberLessThan(first,second) {
+  if (first.length < second.length) {
+    return true;
+  }
+  if (first.length > second.length) {
+    return false;
+  }
+  for (let i = 0; i < first.length; i++) {
+    if (parseInt(first[i]) < parseInt(second[i])) {
+      return true;
+    }
+    if (parseInt(first[i]) > parseInt(second[i])) {
+      return false;
+    }
+  }
+
+  return false;
+}
+
+function getBigNumberFromStr(strNumber) {
+  var offset = strNumber.length % segmentLength;
+
+  var num = [];
+  num.push(strNumber.substr(0, offset));
   
-  var i = num.length - 1;
-  var j = exponent.length - 1;
-  var overflow = 0;
+  return num.concat(getEvenNumberChunks(strNumber.substr(offset)));
+}
 
-  while (j >= 0 || overflow > 0) {
-    if (i < 0) {
-      num.unshift("0");
-      i++;
-    }
-    if (j >= 0) {
-      var intNum = parseInt(num[i]);
-      var intExponent = parseInt(exponent[j]);
-      newNum = Math.pow(intNum,intExponent);
+function getBigNumberFromInt(intNumber) {
+  var strNumber = intNumber.toString();
+  
+  return getBigNumberFromStr(strNumber);
+}
 
-      if (newNum.toString().length > segmentLength) {
-        var strNum = newNum.toString();
+function bigExponent(number, exponent) {  
+  var intExponent = parseInt(exponent[0]);
 
-        overflow = left(strNum, strNum.length - segmentLength);
-        num[i] = right(strNum,segmentLength);
+  var newNum = [...number];
 
-        if (i == 0) {
-          num.unshift("0");
-          i++;
-        }
-      } else {
-        num[i] = (parseInt(newNum) + parseInt(overflow)).toString();
-        overflow = 0;
-      }
-    } else {
-      num[i] = (parseInt(num[i]) + parseInt(overflow)).toString();
-      overflow = 0;
-    }
-    
-      i--;
-      j--;
-    }   
+  for (iExp = 0; iExp < intExponent - 1; iExp++) {
+    newNum = bigMultiply(newNum, number)
+  }
 
-    return num;
+  return newNum;
 }
 
 function bigMultiply(number, multiplier) {
-  var num = [...number];
-  
-  var i = num.length - 1;
-  var j = multiplier.length - 1;
-  var overflow = 0;
 
-  var intMultiplier = parseInt(multiplier[0]);
+  var newNum = [...number];
 
-  while (i >= 0 || overflow > 0) {
-    if (i < 0) {
-      num.unshift("0");
-      i++;
-    }
-    if (i >= 0) {
-      var intNum = parseInt(num[i]);
-      newNum = intNum * intMultiplier;
+  for (iMult = 1; bigNumberLessThan(getBigNumberFromInt(iMult),multiplier); iMult++) {
+    newNum = bigAdd(newNum, number)
+  }
 
-      if (newNum.toString().length > segmentLength) {
-        var strNum = newNum.toString();
-
-        overflow = left(strNum, strNum.length - segmentLength);
-        num[i] = right(strNum,segmentLength);
-
-        if (i == 0) {
-          num.unshift("0");
-          i++;
-        }
-      } else {
-        num[i] = (parseInt(newNum) + parseInt(overflow)).toString();
-        overflow = 0;
-      }
-    } else {
-      num[i] = (parseInt(num[i]) + parseInt(overflow)).toString();
-      overflow = 0;
-    }
-    
-      i--;
-      j--;
-    }   
-
-    return num;
+  return newNum;
 }
 
 function bigAdd(number, increment) {
