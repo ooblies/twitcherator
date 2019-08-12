@@ -3,6 +3,7 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
         $scope.baseIncrement = ["1"];
+        $scope.increment = ["0"];
         $scope.viewers = ["0"];
         $scope.followers = ["0"];
         $scope.subscribers = ["0"];
@@ -34,8 +35,10 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                         //float changing number
                         if (newInt>oldInt) {
                             $scope.floatText("+" + (newInt - oldInt).toString(),$("#subscribers")[0],12);
+                            $scope.calculateIncrement();
                         } else if (newInt<oldInt) {
                             $scope.floatText("-" + (oldInt - newInt).toString(),$("#subscribers")[0],12);
+                            $scope.calculateIncrement();
                         }
 
                         $scope.subscribers = newCount; 
@@ -58,8 +61,10 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                         
                         if (newInt>oldInt) {
                             $scope.floatText("+" + (newInt - oldInt).toString(),$("#viewers")[0],12);
+                            $scope.calculateIncrement();
                         } else if (newInt<oldInt) {
                             $scope.floatText("-" + (oldInt - newInt).toString(),$("#viewers")[0],12);
+                            $scope.calculateIncrement();
                         }
 
                         $scope.viewers = newCount;
@@ -78,8 +83,10 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
                         if (newInt>oldInt) {
                             $scope.floatText("+" + (newInt - oldInt).toString(),$("#followers")[0],12);
+                            $scope.calculateIncrement();
                         } else if (newInt<oldInt) {
                             $scope.floatText("-" + (oldInt - newInt).toString(),$("#followers")[0],12);
+                            $scope.calculateIncrement();
                         }
 
                         $scope.followers = newCount;
@@ -107,11 +114,11 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
                 inc = bigExponent(inc, $scope.subscribers);
             }
             
-            return inc;            
+            $scope.increment = inc;            
         }        
 
         $scope.incrementNumber = function() {
-            $scope.number = bigAdd($scope.number, $scope.calculateIncrement());
+            $scope.number = bigAdd($scope.number, $scope.increment);
             $scope.displayNumber = getBigNumberAsString($scope.number);
 
             $scope.floatText("+" + $scope.getIncrementAsString(),$("#number")[0], 24);
@@ -119,7 +126,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         }
 
         $scope.getIncrementAsString = function() {
-            return getBigNumberAsString($scope.calculateIncrement());
+            return getBigNumberAsString($scope.increment);
         }
         $scope.getViewersAsString = function() {
             return getBigNumberAsString($scope.viewers);
@@ -159,7 +166,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         }
 
         $scope.getNumberPerSecond = function() {
-            return $scope.calculateIncrement() / (1000 - $scope.delayInMS);
+            return $scope.increment / ($scope.delayInMS/1000);
         }
         
         $interval($scope.pullFromTwitch, 5000);   
@@ -170,5 +177,10 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         
         increaseSpeed = function(speed) {
             $scope.delayInMS = speed;
+        }
+
+        $scope.getIncrementPerSecond = function() {
+            var ps = $scope.increment / ($scope.delayInMS/1000);
+            return ps;
         }
 });
