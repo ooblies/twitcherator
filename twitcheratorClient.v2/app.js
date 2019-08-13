@@ -53,7 +53,8 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         if (atParent) {
             var off = offset(element);
             newFloater.style.position = "absolute";
-            newFloater.style.left = element.offsetLeft ;
+            newFloater.style.left = element.offsetLeft + element.offsetWidth - (newFloater.innerText.length * 7.5);
+
             //newFloater.style.top = off.top - element.offsetTop; 
         } else {
             newFloater.style.width = "100%";
@@ -120,9 +121,20 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         $scope.floatText("+" + toAdd,$("#floaterContainer")[0], 24);
     }
 
-    $scope.addViewer = function() {
-        $scope.data.viewers++;
-           
-        $scope.floatText("+1",$("#viewers")[0], 16, true);
+    $scope.addViewer = function() {           
+        $scope.floatText("+" + addCommas($scope.data.viewers.toString()),$("#viewers")[0], 16, true);
+        $scope.data.viewers*=2;
+    }
+
+    $scope.getFollowers = function() {
+        return addCommas($scope.data.followers.toString());
+    }
+
+    $scope.getViewers = function() {
+        return addCommas($scope.data.viewers.toString());
+    }
+
+    $scope.getSubscribers = function () {
+        return addCommas($scope.data.subscribers.toString());
     }
 });
