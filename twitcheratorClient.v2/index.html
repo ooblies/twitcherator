@@ -1,0 +1,42 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="bigassnumbers.js"></script>
+    <script src="scripts/jquery-3.3.1.slim.min.js"></script>
+    <script src="scripts/anime.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="numbers.css">
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl" class="body">  
+    <div id="testNum" class="numberContainer">
+        <label class="number" id="number">{{data.number}}</label>        
+        <div id="floaterContainer" class="floaterContainer">
+    </div>
+    <div class="footer">
+        <div class="center">
+            <div>
+                Formula: (Viewers * Followers) ^ Subscribers per (1000 - Bits) milliseconds
+            </div>
+            <div>
+                <label>(</label>
+                <label id="viewers">&nbsp;{{data.viewers}}&nbsp;</label>
+                <label>*</label>
+                <label id="followers">&nbsp;{{data.followers}}&nbsp;</label>
+                <label>)&nbsp;^</label>
+                <label id="subscribers">&nbsp;{{data.subscribers}}&nbsp;</label>
+                <label>=</label>
+
+                <label id="increment" style="font-weight:bold; font-size: 20px;">&nbsp;{{getIncrement()}}</label>
+                <label>/</label>
+                <label id="speed">{{calculateDisplaySpeed()}}&nbsp;</label>
+                <label>=</label>                
+                <label id="incrementps" style="font-weight:bold; font-size: 20px;">&nbsp;~{{getIncrementPerSecond()}}/s</label>
+            </div>       
+            <div>
+                Chat += 1%
+            </div>
+            <button ng-click="addViewer()">Add Viewer</button>
+        </div>  
+    </div>        
+</body>
