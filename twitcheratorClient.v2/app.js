@@ -11,6 +11,49 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         number: "0"
     };
 
+    $scope.recieveUpdates = function() {
+        //recieve newData
+        var newData = Object.assign({}, $scope.data);
+        newData.viewers += 5;
+        newData.followers += 2;
+        newData.subscribers += 100;
+        
+
+        if ($scope.data.viewers != newData.viewers) {
+            var diff = newData.viewers - $scope.data.viewers;
+            var sign = "+";
+            if (diff < 0) {
+                sign = "-";
+            }
+            $scope.floatText(sign + addCommas(diff.toString()),$("#viewers")[0], 16, true);
+        }
+        $scope.data.viewers = newData.viewers;
+
+        if ($scope.data.followers != newData.followers) {
+            var diff = newData.followers - $scope.data.followers;
+            var sign = "+";
+            if (diff < 0) {
+                sign = "-";
+            }
+            $scope.floatText(sign + addCommas(diff.toString()),$("#followers")[0], 16, true);
+        }
+        $scope.data.followers = newData.followers;
+
+        if ($scope.data.subscribers != newData.subscribers) {
+            var diff = newData.subscribers - $scope.data.subscribers;
+            var sign = "+";
+            if (diff < 0) {
+                sign = "-";
+            }
+            $scope.floatText(sign + addCommas(diff.toString()),$("#subscribers")[0], 16, true);
+        }
+        $scope.data.subscribers = newData.subscribers;
+
+        $scope.data.bitsInLast5 = newData.bitsInLast5;
+        $scope.data.increment = newData.increment;        
+
+    }
+
 
     $scope.incrementToAdd = "0";
           
@@ -122,8 +165,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     }
 
     $scope.addViewer = function() {           
-        $scope.floatText("+" + addCommas($scope.data.viewers.toString()),$("#viewers")[0], 16, true);
-        $scope.data.viewers*=2;
+        $scope.recieveUpdates();
     }
 
     $scope.getFollowers = function() {
