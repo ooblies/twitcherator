@@ -6,17 +6,31 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         viewers: 1,
         followers: 1,
         subscribers: 1,
-        bitsInLast5: 500,
+        bitsInLast5: 0,
         increment: "12345",
         number: "0"
     };
 
+    $(function () {
+        var chat = $.connection.twitchHub;
+
+        chat.client.hello = function(test) {
+            alert("yay~");
+        };
+
+        $.connection.hub.start().done(function () {
+            $('#sendmessage').click(function () {                
+                chat.server.hi();                
+            });
+        });
+    });
     $scope.recieveUpdates = function() {
         //recieve newData
         var newData = Object.assign({}, $scope.data);
         newData.viewers += 5;
         newData.followers += 2;
         newData.subscribers += 100;
+        newData.bitsInLast5 += 100;
         
 
         if ($scope.data.viewers != newData.viewers) {
