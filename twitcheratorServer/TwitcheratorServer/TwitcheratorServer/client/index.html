@@ -13,33 +13,34 @@
 
 <body ng-app="myApp" ng-controller="myCtrl" class="body">  
     <div id="testNum" class="numberContainer">
-        <label class="number" id="number">{{data.number}}</label>        
+        <label class="number" id="number" ng-hide="loading">{{data.number}}</label>
+        <label class="number" id="number" ng-show="loading">loading...</label>
         <div id="floaterContainer" class="floaterContainer">
-    </div>
-    <div class="footer">
-        <div class="center">
-            <div>
-                Formula: (Viewers * Followers) ^ Subscribers per (1000 - Bits) milliseconds
-            </div>
-            <div>
-                <label>(</label>
-                <label id="viewers">&nbsp;{{getViewers()}}&nbsp;</label>
-                <label>*</label>
-                <label id="followers">&nbsp;{{getFollowers()}}&nbsp;</label>
-                <label>)&nbsp;^</label>
-                <label id="subscribers">&nbsp;{{getSubscribers()}}&nbsp;</label>
-                <label>=</label>
+        </div>
+        <div class="footer">
+            <div class="center">
+                <div>
+                    Formula: (Viewers * Followers) ^ Subscribers per (1000 - Bits) milliseconds
+                </div>
+                <div>
+                    <label>(</label>
+                    <label id="viewers">&nbsp;{{getViewers()}}&nbsp;</label>
+                    <label>*</label>
+                    <label id="followers">&nbsp;{{getFollowers()}}&nbsp;</label>
+                    <label>)&nbsp;^</label>
+                    <label id="subscribers">&nbsp;{{getSubscribers()}}&nbsp;</label>
+                    <label>=</label>
 
-                <label id="increment" style="font-weight:bold; font-size: 20px;">&nbsp;{{getIncrement()}}</label>
-                <label>/</label>
-                <label id="speed">{{calculateDisplaySpeed()}}&nbsp;</label>
-                <label>=</label>                
-                <label id="incrementps" style="font-weight:bold; font-size: 20px;">&nbsp;~{{getIncrementPerSecond()}}/s</label>
-            </div>       
-            <div>
-                Chat += 1%
+                    <label id="increment" style="font-weight:bold; font-size: 20px;">&nbsp;{{getIncrement()}}</label>
+                    <label>/</label>
+                    <label id="speed">{{calculateDisplaySpeed()}}&nbsp;</label>
+                    <label>=</label>
+                    <label id="incrementps" style="font-weight:bold; font-size: 20px;">&nbsp;~{{getIncrementPerSecond()}}/s</label>
+                </div>
+                <div>
+                    Chat += 1%
+                </div>
+                <button ng-click="addViewer()">Add Viewer</button>
             </div>
-            <button ng-click="addViewer()">Add Viewer</button>
-        </div>  
-    </div>        
+        </div>
 </body>

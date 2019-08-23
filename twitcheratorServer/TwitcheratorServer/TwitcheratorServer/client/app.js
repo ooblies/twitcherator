@@ -3,22 +3,26 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
     $scope.data = {
-        viewers: 10,
-        followers: 10,
-        subscribers: 10,
-        bitsInLast5: 100,
-        increment: "12345",
+        viewers: 0,
+        followers: 0,
+        subscribers: 0,
+        bitsInLast5: 0,
+        increment: "0",
         number: "0"
     };
+
+    $scope.loading = true;
 
     $(function () {
         var hub = $.connection.twitchHub;
 
-        hub.client.receiveUpdate = $scope.receiveUpdate;        
+        hub.client.receiveMessage = $scope.receiveMessage;   
+
+        $.connection.hub.start();
     });
 
-    $scope.receiveUpdate = function (newData) {
-        debugger;        
+    $scope.receiveMessage = function (newData) {
+        $scope.loading = false;
 
         if ($scope.data.viewers != newData.viewers) {
             var diff = newData.viewers - $scope.data.viewers;
@@ -71,7 +75,10 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     }
 
     $scope.tick = function() {
-        if ($scope.incrementToAdd != "0") {
+        if ($scope.incrementToAdd != "0" && !$scope.loading) {
+            if ($scope.incrementToAdd.replace(",", "").replace("0", "").replace("0", "").replace("0", "").replace("0", "").replace("0", "").length == 0) {
+                return;
+            }
             $scope.data.number = bigAddStr($scope.data.number, $scope.incrementToAdd);        
             $scope.floatText("+" + $scope.incrementToAdd,$("#floaterContainer")[0], 24, false);
             $scope.incrementToAdd = "0";   
@@ -83,7 +90,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         }            
     }
 
-    $scope.floatText = function(float, element, textSize, atParent) {
+    $scope.floatText = function (float, element, textSize, atParent) {
         var newFloater = document.createElement("div");
         var newFloaterId = "textFloater" + $scope.floaterCount;
         newFloater.setAttribute("id", newFloaterId);

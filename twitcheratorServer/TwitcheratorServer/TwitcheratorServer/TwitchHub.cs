@@ -9,17 +9,19 @@ namespace TwitcheratorServer
     {
         private readonly static Lazy<Broadcaster> _instance = new Lazy<Broadcaster>(() => new Broadcaster());
 
-        private readonly TimeSpan BroadcastInterval = TimeSpan.FromMilliseconds(40);
+        private readonly TimeSpan BroadcastInterval = TimeSpan.FromMilliseconds(5000);
         private readonly IHubContext _hubContext;
 
         private Timer _breadcastLoop;
-        private twitcheratorModel _model;
+        private TwitcheratorMessage _model;
+        private Twitcherator _twitcherator;
         private bool _modelUpdated;
 
         public Broadcaster()
         {
             _hubContext = GlobalHost.ConnectionManager.GetHubContext<TwitchHub>();
-            _model = new twitcheratorModel();
+            _model = new TwitcheratorMessage();
+            _twitcherator = new Twitcherator();
             _modelUpdated = false;
 
             _breadcastLoop = new Timer(
@@ -31,18 +33,14 @@ namespace TwitcheratorServer
 
         public void BroadcastObject(object obj)
         {
-            if (true)//_modelUpdated)
+            _modelUpdated = _twitcherator.GetMessage(_model, out _model);
+
+            if (_modelUpdated)
             {
-                _hubContext.Clients.All().receiveUpdate(_model);
-                _modelUpdated = false;
+                _hubContext.Clients.All.receiveMessage(_model);
             }
         }
 
-        public void UpdateObject(twitcheratorModel clientModel)
-        {
-            _model = clientModel;
-            _modelUpdated = true;
-        }
         public static Broadcaster Instance
         {
             get
@@ -51,15 +49,7 @@ namespace TwitcheratorServer
             }
         }
     }
-    public class twitcheratorModel
-    {
-        [JsonProperty("viewers")]
-        public int Viewers { get; set; }
-        [JsonProperty("followers")]
-        public int Followers { get; set; }
-        [JsonProperty("subscribers")]
-        public int Subscribers { get; set; }
-    }
+
 
     public class TwitchHub : Hub
     {
@@ -71,20 +61,6 @@ namespace TwitcheratorServer
         public TwitchHub(Broadcaster broadcaster)
         {
             _broadcaster = broadcaster;
-        }
-        public void UpdateModel(twitcheratorModel clientModel)
-        {
-            _broadcaster.UpdateObject(clientModel);
-        }
-
-        public void Hello()
-        {
-            Clients.All.hello();
-        }
-
-        public void Hi()
-        {
-            int i = 0;
         }
     }
 }
