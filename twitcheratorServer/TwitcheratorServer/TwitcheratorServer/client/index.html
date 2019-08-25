@@ -6,13 +6,14 @@
     <script src="../Scripts/anime.js"></script>
 
     <script type="text/javascript" src="bigassnumbers.js"></script>
+    <script type="text/javascript" src="../Scripts/tmi.js"></script>
     <script type="text/javascript" src="app.js"></script>
 
     <link rel="stylesheet" type="text/css" href="numbers.css">
 </head>
 
 <body ng-app="myApp" ng-controller="myCtrl" class="body">  
-    <div id="testNum" class="numberContainer">
+    <div id="testNum" class="numberContainer" ng-hide="auth.token == ''">
         <label class="number" id="number" ng-hide="loading">{{data.number}}</label>
         <label class="number" id="number" ng-show="loading">loading...</label>
         <div id="floaterContainer" class="floaterContainer">
@@ -20,7 +21,7 @@
         <div class="footer">
             <div class="center">
                 <div>
-                    Formula: (Viewers * Followers) ^ Subscribers per (1000 - Bits) milliseconds
+                    Formula: (Viewers * Followers) ^ Subscribers per (1000 - Bits in the last 5 minutes) milliseconds
                 </div>
                 <div>
                     <label>(</label>
@@ -38,9 +39,13 @@
                     <label id="incrementps" style="font-weight:bold; font-size: 20px;">&nbsp;~{{getIncrementPerSecond()}}/s</label>
                 </div>
                 <div>
-                    Chat += 1%
+                    Chat += 0.1%
                 </div>
-                <button ng-click="addViewer()">Add Viewer</button>
+                <button ng-hide="true" ng-click="addViewer()">Add Viewer</button>
             </div>
         </div>
+    </div>
+    <div ng-show="auth.token == ''" class="authDiv">        
+        <a class="authLink" id="auth-link" href={{getAuthURL()}}>Connect your twitch account...</a>
+    </div>
 </body>

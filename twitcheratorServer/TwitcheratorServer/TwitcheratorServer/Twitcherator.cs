@@ -13,7 +13,7 @@ namespace TwitcheratorServer
         private readonly string _clientId = "eo171si6zugwlanaf2it4wuo3mg6y7";
         private readonly string _userId = "452018475";
         private readonly string _clientSecret = "1u9f21tz495eg388gu7ads9rok69nl";
-        private readonly string _userName = "TwitchMakesABigNumber";
+        private readonly string _userName = "TwitchMakesABIGNumber";
         private string _authToken = "";
         private string _expiration = "";
         private RestClient _client;
@@ -31,6 +31,16 @@ namespace TwitcheratorServer
             _client = new RestClient("https://api.twitch.tv");
             _authClient = new RestClient("https://id.twitch.tv");
             _bitList = new List<BitLog>();
+        }
+
+        public string GetToken()
+        {
+            if (_authToken == "")
+            {
+                Authorize();
+            }
+
+            return _authToken;
         }
 
         public void LogBits(int b)
@@ -100,16 +110,30 @@ namespace TwitcheratorServer
             return f;
         }
 
+        private void AuthScopes()
+        {
+            var request = new RestRequest("oauth2/authorize", Method.GET);
+            request.AddParameter("client_id", _clientId);
+            request.AddParameter("redirect_uri", "http://localhost:63049/client/index.html");
+            request.AddParameter("response_type", "token");
+            request.AddParameter("scope", "channel:read:subscriptions bits:read chat:read");
+
+            IRestResponse response = _authClient.Execute(request);
+            var content = response.Content;
+        }
+
         private void Authorize()
         {
             var request = new RestRequest("oauth2/token", Method.POST);
             request.AddParameter("client_id", _clientId);
             request.AddParameter("client_secret", _clientSecret);
             request.AddParameter("grant_type", "client_credentials");
-            request.AddParameter("scope", "channel:read:subscriptions");
+            request.AddParameter("scope", "channel:read:subscriptions bits:read chat:read");            
 
             IRestResponse response = _authClient.Execute(request);
             var content = response.Content;
+
+            //AuthScopes();
 
             _authToken = JsonValue.Parse(content)["access_token"];
             _expiration = JsonValue.Parse(content)["expires_in"].ToString();

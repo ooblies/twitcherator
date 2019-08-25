@@ -187,6 +187,18 @@ function getOnePercent(number) {
   return addCommas(toAdd);
 }
 
+function getPointOnePercent(number) {
+    var num = number.replace(/,/g, "");
+
+    if (num.length < 4) {
+        return "1";
+    }
+
+    var toAdd = num.substr(0, num.length - 3);
+
+    return addCommas(toAdd);
+}
+
 function bigAddOnePercent(number) {
   var num = number.replace(/,/g,"");
 

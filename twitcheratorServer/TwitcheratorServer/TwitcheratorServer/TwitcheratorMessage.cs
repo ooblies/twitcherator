@@ -15,7 +15,5 @@ namespace TwitcheratorServer
         public int BitsInLast5 { get; set; }
         [JsonProperty("increment")]
         public string Increment { get; set; }
-        [JsonIgnore]
-        public string LastUpdatedBy { get; set; }
     }
 }
