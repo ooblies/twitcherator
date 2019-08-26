@@ -1,6 +1,7 @@
 var app = angular.module('myApp', []);
 
 app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
+    $scope.youWin = false;
 
     $scope.data = {
         viewers: 0,
@@ -19,6 +20,8 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         token: "",
         refresh_token: "",
     };
+
+    $scope.startingFontSize = 32;
 
     $scope.bitLog = [];
 
@@ -49,6 +52,8 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
             $scope.getAuthToken();
         }
+
+        $scope.loadNumber();
     });
 
     $scope.getUrlVars = function() {
@@ -137,15 +142,17 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         return url;
     }
 
+    $scope.refreshInterval;
+
     $scope.getAuthToken = function () {
         //get auth token
         $http.post("https://id.twitch.tv/oauth2/token?client_id=" + $scope.auth.client_id + "&client_secret=" + $scope.auth.client_secret + "&code=" + $scope.auth.code + "&grant_type=authorization_code&redirect_uri=http://localhost:63049/client/index.html")
             .then(function success(response) {
                 $scope.auth.token = response.data.access_token;
-                $scope.auth.refresh_token = response.data.refresh_token;;
+                $scope.auth.refresh_token = response.data.refresh_token;
 
                 var refreshIn = (response.data.expires_in - 60) * 1000;
-                $interval($scope.refreshToken, refreshIn);
+                $scope.refreshInterval = $interval($scope.refreshToken, refreshIn);
                 $scope.openBitsSocket();
                 $scope.openChatSocket();
             }, function error(response) {
@@ -155,7 +162,18 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
 
     $scope.refreshToken = function () {
-        alert('token needs to be refreshed~');
+        clearInterval($scope.refreshInterval);
+
+        $http.post("https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=" + $scope.auth.refresh_token + "&client_id=" + $scope.auth.client_id + "&client_secret=" + $scope.auth.client_secret)
+            .then(function success(response) {
+                $scope.auth.token = response.data.access_token;
+                $scope.auth.refresh_token = response.data.refresh_token;
+
+                var refreshIn = (response.data.expires_in - 60) * 1000;
+                $scope.refreshInterval = $interval($scope.refreshToken, refreshIn);
+            }, function error(response) {
+                debugger;
+            });
     }
 
     $scope.openBitsSocket = function () {
@@ -188,6 +206,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
         if (message.data.includes("PING :tmi.twitch.tv")) {        
             $scope.chatSocket.send("PONG :tmi.twitch.tv");
+            console.log("CHAT - PONG");
         }
     }
     $scope.onChatClose = function () {
@@ -265,22 +284,45 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         //console.log("Adding " + $scope.incrementToAdd);
     }
 
+    $scope.loadNumber = function () {
+        if (localStorage.getItem("BigAssNumber")) {
+            $scope.data.number = localStorage.getItem("BigAssNumber");
+        }        
+    }
+
+    $scope.saveNumber = function () {
+        localStorage.setItem("BigAssNumber", $scope.data.number);
+    }
+
+    $scope.deleteNumber = function () {
+        localStorage.removeItem("BigAssNumber");
+        location.reload();
+    }
+
     $scope.tick = function() {
         if ($scope.incrementToAdd != "0" && !$scope.loading) {
             if ($scope.incrementToAdd.replace(",", "").replace("0", "").replace("0", "").replace("0", "").replace("0", "").replace("0", "").length == 0) {
                 return;
             }
-            $scope.data.number = bigAddStr($scope.data.number, $scope.incrementToAdd);        
+            $scope.data.number = bigAddStr($scope.data.number, $scope.incrementToAdd);     
             $scope.floatText("+" + $scope.incrementToAdd,$("#floaterContainer")[0], 24, false);
             $scope.incrementToAdd = "0";   
-            
-            
-            //$scope.floatText("+1",$("#viewers")[0], 16, true);
-            //$scope.floatText("+1",$("#followers")[0], 16, true);
-            //$scope.floatText("+1",$("#subscribers")[0], 16, true);
+
+            $scope.saveNumber();
         }        
 
         $scope.data.bitsInLast5 = $scope.getBitsInLast5();
+        var el = $("#floaterContainer")[0];
+        if (!$scope.loading && el.getBoundingClientRect().top <= 0) {
+            $scope.startingFontSize -= 1;
+
+            if ($scope.startingFontSize == 0) {
+                $scope.youWin = true;
+            }
+
+            el.style.fontSize = $scope.startingFontSize;
+            console.log("Resizing - Font Size: " + $scope.startingFontSize.toString());
+        }
     }
 
     $scope.floatText = function (float, element, textSize, atParent) {
