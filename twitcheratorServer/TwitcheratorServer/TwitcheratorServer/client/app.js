@@ -100,7 +100,6 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         console.log("BITS - " + message.type.toUpperCase() + (JSON.parse(message.data).topic ? " - " + JSON.parse(message.data).topic : "") + (JSON.parse(message.data).type ? " - " + JSON.parse(message.data).type : ""));
         if (message.type.toUpperCase() == "MESSAGE") {
             if (JSON.parse(message.data).topic == "channel-bits-events-v2.452018475") {
-                debugger;
                 var data = JSON.parse(JSON.parse(message.data).message).data;
 
                 $scope.addBits(data.bits_used);
@@ -128,8 +127,8 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     }
 
     $scope.onError = function (error) {
+        console.log("BITS - ERROR");
         console.log(error);
-        debugger;
     }
 
     $scope.getAuthURL = function () {
@@ -193,6 +192,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     }
 
     $scope.onChatOpen = function () {
+        console.log("CHAT - OPEN");
         $scope.chatSocket.send("PASS oauth:" + $scope.auth.token);
         $scope.chatSocket.send("NICK twitchmakesabignumber");
         $scope.chatSocket.send("JOIN #twitchmakesabignumber");
@@ -210,12 +210,12 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         }
     }
     $scope.onChatClose = function () {
-        debugger;
-
+        console.log("CHAT - CLOSE");
         setTimeout($scope.openChatSocket, reconnectInterval);
     }
     $scope.onChatError = function (error) {
-        debugger;
+        console.log("CHAT - ERROR");
+        console.log(error);   
     }
 
     $scope.listen = function () {
