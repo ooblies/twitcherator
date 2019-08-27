@@ -122,7 +122,6 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Twitcherator.cs" />
     <Compile Include="TwitcheratorMessage.cs" />
-    <Compile Include="TwitchEventHandler.cs" />
     <Compile Include="TwitchHub.cs" />
   </ItemGroup>
   <ItemGroup>
