@@ -313,7 +313,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
 
         $scope.data.bitsInLast5 = $scope.getBitsInLast5();
         var el = $("#floaterContainer")[0];
-        if (!$scope.loading && el.getBoundingClientRect().top <= 0) {
+        if (!$scope.loading && el.getBoundingClientRect().top <= 0 && $scope.auth.token != "") {
             $scope.startingFontSize -= 1;
 
             if ($scope.startingFontSize == 0) {
