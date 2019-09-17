@@ -23,7 +23,7 @@
     <div class="footer" ng-hide="youWin">
         <div class="center">
             <div>
-                Formula: (Viewers * Followers) ^ Subscribers per (1000 - Bits in the last 5 minutes) milliseconds
+                Formula: (Viewers * Followers) ^ Subscribers per <label ng-show="displayBitsMessage">(1000 - Bits in the last 5 minutes) milliseconds</label><label ng-hide="displayBitsMessage">second</label>
             </div>
             <div>
                 <label>(</label>
@@ -36,11 +36,12 @@
 
                 <label id="increment" style="font-weight:bold; font-size: 20px;">&nbsp;{{getIncrement()}}</label>
                 <label>/</label>
-                <label id="speed">{{calculateDisplaySpeed()}}&nbsp;</label>
-                <label>=</label>
-                <label id="incrementps" style="font-weight:bold; font-size: 20px;">&nbsp;~{{getIncrementPerSecond()}}/s</label>
+                <label id="speed" ng-show="displayBitsMessage">{{calculateDisplaySpeed()}}&nbsp;</label>
+                <label ng-show="displayBitsMessage">=</label>
+                <label id="incrementps" style="font-weight:bold; font-size: 20px;" ng-show="displayBitsMessage">&nbsp;~{{getIncrementPerSecond()}}/s</label>
+                <label ng-hide="displayBitsMessage">s</label>
             </div>
-            <div>
+            <div ng-show="displayChatMessage">
                 Chat += 0.1%
             </div>
             <button ng-hide="true" ng-click="addViewer()">Add Viewer</button>

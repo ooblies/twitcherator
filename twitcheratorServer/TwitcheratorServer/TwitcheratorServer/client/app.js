@@ -34,6 +34,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     $scope.chatSocket;
     $scope.chatClient;
 
+    $scope.displayChatMessage = false;
+    $scope.displayBitsMessage = false;
+
     var heartbeatHandle;
     var heartbeatInterval = 60000;
     var reconnectInterval = 3000;
@@ -94,6 +97,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         $scope.heartbeat();
 
         heartbeatHandle = setInterval($scope.heartbeat, heartbeatInterval);
+        $scope.displayBitsMessage = true;
     }
 
     $scope.onMessage = function (message) {
@@ -124,6 +128,8 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         $scope.isListening = false;
 
         setTimeout($scope.openBitsSocket, reconnectInterval);
+
+        $scope.displayBitsMessage = false;
     }
 
     $scope.onError = function (error) {
@@ -176,7 +182,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     }
 
     $scope.openBitsSocket = function () {
-        $scope.bitSocket = new WebSocket("wss://pubsub-edge.twitch.tv");
+        $scope.bitSocket = new WebSocket("ws://pubsub-edge.twitch.tv");
         $scope.bitSocket.onopen = $scope.onOpen;
         $scope.bitSocket.onmessage = $scope.onMessage;
         $scope.bitSocket.onclose = $scope.onClose;
@@ -196,6 +202,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
         $scope.chatSocket.send("PASS oauth:" + $scope.auth.token);
         $scope.chatSocket.send("NICK twitchmakesabignumber");
         $scope.chatSocket.send("JOIN #twitchmakesabignumber");
+
+        $scope.displayChatMessage = true;
+
     }
     $scope.onChatMessage = function (message) {
         console.log("CHAT - " + message.data);
@@ -212,10 +221,12 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     $scope.onChatClose = function () {
         console.log("CHAT - CLOSE");
         setTimeout($scope.openChatSocket, reconnectInterval);
+        $scope.displayChatMessage = false;
     }
     $scope.onChatError = function (error) {
         console.log("CHAT - ERROR");
         console.log(error);   
+
     }
 
     $scope.listen = function () {
