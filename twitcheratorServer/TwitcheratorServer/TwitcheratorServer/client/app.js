@@ -182,7 +182,7 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     }
 
     $scope.openBitsSocket = function () {
-        $scope.bitSocket = new WebSocket("ws://pubsub-edge.twitch.tv");
+        $scope.bitSocket = new WebSocket("wss://pubsub-edge.twitch.tv");
         $scope.bitSocket.onopen = $scope.onOpen;
         $scope.bitSocket.onmessage = $scope.onMessage;
         $scope.bitSocket.onclose = $scope.onClose;

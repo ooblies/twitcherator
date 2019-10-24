@@ -238,8 +238,6 @@ D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\Twit
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\bin\System.Xml.XPath.dll
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\bin\System.Xml.XPath.XDocument.dll
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\bin\System.Json.dll
-D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\bin\websocket-sharp.dll
-D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\bin\websocket-sharp.xml
 C:\Development\Personal\twitcherator\twitcheratorServer\TwitcheratorServer\TwitcheratorServer\bin\Microsoft.Win32.Primitives.dll
 C:\Development\Personal\twitcherator\twitcheratorServer\TwitcheratorServer\TwitcheratorServer\bin\netstandard.dll
 C:\Development\Personal\twitcherator\twitcheratorServer\TwitcheratorServer\TwitcheratorServer\bin\System.AppContext.dll
