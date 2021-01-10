@@ -137,7 +137,6 @@ D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\Twit
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\bin\RestSharp.xml
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\obj\Debug\TwitcheratorServer.csprojAssemblyReference.cache
-D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\obj\Debug\TwitcheratorServer.csproj.CoreCompileInputs.cache
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\obj\Debug\TwitcheratorServer.csproj.CopyComplete
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\obj\Debug\TwitcheratorServer.dll
 D:\Projects\Twitcherator\twitcherator\twitcheratorServer\twitcheratorServer\TwitcheratorServer\obj\Debug\TwitcheratorServer.pdb

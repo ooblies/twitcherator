@@ -415,7 +415,9 @@ app.controller('myCtrl',function($scope, $interval, $http, $timeout) {
     $scope.handleChat = function() {
         var toAdd = getPointOnePercent($scope.data.number);
         $scope.data.number = bigAddStr($scope.data.number, toAdd);        
-        $scope.floatText("+" + toAdd,$("#floaterContainer")[0], 24);
+        $scope.floatText("+" + toAdd, $("#floaterContainer")[0], 24);
+
+        $scope.bitLog.push({ bits: 1, date: new Date() });
     }
 
     $scope.addViewer = function() {           

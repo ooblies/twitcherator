@@ -147,7 +147,7 @@ namespace TwitcheratorServer
             {
                 var request = new RestRequest("helix/subscriptions");
                 request.AddParameter("broadcaster_id", _userId);
-                request.AddParameter("user_id", _userId);
+                //request.AddParameter("user_id", _userId);
                 request.AddHeader("client-id", _clientId);
                 request.AddHeader("Authorization", "Bearer " + _authToken);
 
